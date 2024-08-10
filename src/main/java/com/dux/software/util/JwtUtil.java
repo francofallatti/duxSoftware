@@ -20,7 +20,6 @@ public class JwtUtil {
 
     @Value("${jwt.secret}")
     private String SECRET_KEY;
-
     @Value("${jwt.expiration}")
     private long jwtExpiration;
 
@@ -34,7 +33,7 @@ public class JwtUtil {
         return expiration.before(new Date());
     }
 
-    public Date extractExpiration(String token) {
+    private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
@@ -42,7 +41,7 @@ public class JwtUtil {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
