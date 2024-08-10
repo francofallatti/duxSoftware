@@ -4,6 +4,8 @@ import com.dux.software.dto.ErrorDto;
 import com.dux.software.exceptions.EquipoNoEncontradoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -29,5 +31,15 @@ public class ExceptionHandlerController {
                         .mensaje("La solicitud es invalida")
                         .build()
                 , HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorDto> handleAuthenticationException(AuthenticationException ex) {
+        return new ResponseEntity<>(
+                ErrorDto.builder()
+                        .codigo(HttpStatus.UNAUTHORIZED.value())
+                        .mensaje("Compruebe el usuario y/o la contraseña")
+                        .build()
+                , HttpStatus.UNAUTHORIZED);
     }
 }
