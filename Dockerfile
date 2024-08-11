@@ -1,20 +1,33 @@
-# Imagen de JDK 17
-FROM openjdk:17-jdk-slim
+# Dockerfile Multistage
 
-# Directorio de trabajo y copia del pom
-WORKDIR /app
+# Fase de construcción
+# Imagen de JDK 17
+FROM openjdk:17-jdk-slim AS build
+
+# Directorio de trabajo
+WORKDIR /software
+
+# Copiar archivos de construcción
 COPY pom.xml ./
 COPY src ./src
-
-# Copiar los scripts de Maven
 COPY mvnw ./
 COPY .mvn .mvn
 
-# Construicción y copia del JAR
+# Construir la aplicación
 RUN ./mvnw clean package -DskipTests
-COPY target/software-0.0.1-SNAPSHOT.jar app_dux.jar
+
+# Fase final
+# Imagen de JDK 17
+FROM openjdk:17-jdk-slim
+
+# Directorio de trabajo
+WORKDIR /software
+
+# Copia el archivo JAR desde la fase de construcción
+COPY --from=build /software/target/software-0.0.1-SNAPSHOT.jar app_dux.jar
 
 # Puerto
 EXPOSE 8080
 
+# Ejecutar la aplicación
 ENTRYPOINT ["java", "-jar", "app_dux.jar"]
