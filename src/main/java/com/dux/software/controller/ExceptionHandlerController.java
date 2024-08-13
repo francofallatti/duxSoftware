@@ -2,10 +2,8 @@ package com.dux.software.controller;
 
 import com.dux.software.dto.ErrorDto;
 import com.dux.software.exceptions.EquipoNoEncontradoException;
-import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

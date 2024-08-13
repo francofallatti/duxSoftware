@@ -1,6 +1,5 @@
 package com.dux.software.service.impl;
 
-import com.dux.software.repository.UserRepository;
 import com.dux.software.service.AuthService;
 import com.dux.software.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
