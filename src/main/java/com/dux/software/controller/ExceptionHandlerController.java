@@ -42,4 +42,15 @@ public class ExceptionHandlerController {
                 , HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorDto> handleGenericException(Exception ex) {
+        System.out.println(ex.getMessage());
+        ex.printStackTrace();
+        return new ResponseEntity<>(
+                ErrorDto.builder()
+                        .codigo(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                        .mensaje("Ocurrió un error inesperado")
+                        .build(),
+                HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

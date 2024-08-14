@@ -5,6 +5,7 @@ import com.dux.software.service.TeamService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,8 +48,8 @@ public class TeamController {
 
     @Operation(summary = "Actualiza un equipo según el ID proporcionado")
     @PutMapping("/{id}")
-    public ResponseEntity<TeamDto> putTeamById(@PathVariable("id") Long id, @RequestBody TeamDto teamDto){
-        return new ResponseEntity<>(teamService.updateTeam(id, teamDto), HttpStatus.CREATED);
+    public ResponseEntity<TeamDto> putTeamById(@PathVariable("id") Long id, @Valid @RequestBody TeamDto teamDto){
+        return new ResponseEntity<>(teamService.updateTeam(id, teamDto), HttpStatus.OK);
     }
 
     @Operation(summary = "Elimina el equipo correspondiente al ID proporcionado")

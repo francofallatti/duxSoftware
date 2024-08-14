@@ -12,11 +12,11 @@ import lombok.Setter;
 public class TeamDto {
 
     private Long id;
-    @NotBlank(message = "El nombre es obligatorio")
+    @NotBlank
     private String nombre;
-    @NotBlank(message = "La liga es obligatoria")
+    @NotBlank
     private String liga;
-    @NotBlank(message = "El país es obligatorio")
+    @NotBlank
     private String pais;
 
     public Team toEntity() {

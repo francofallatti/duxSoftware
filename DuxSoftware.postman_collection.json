@@ -1,0 +1,1709 @@
+{
+	"info": {
+		"_postman_id": "cb97fb95-a605-45e0-8249-a0030792ca6c",
+		"name": "DuxSoftware",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13117722"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "auth/login - Happy path",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse response y set token en el env\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"authToken\", \"Bearer \" + jsonData.token);\r",
+									"\r",
+									"pm.test(\"auth/login - Happy path - Status code\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"token\": {\r",
+									"            \"type\": \"string\"\r",
+									"        }\r",
+									"    },\r",
+									"    \"required\": [\"token\"],\r",
+									"    \"additionalProperties\": false\r",
+									"};\r",
+									"\r",
+									"pm.test(\"auth/login - Happy path - Valid schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"test\",\r\n    \"password\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{duxUrl}}/auth/login",
+							"host": [
+								"{{duxUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth/login - Usuario incorrecto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"auth/login - Usuario incorrecto - Status code\", () => {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"var schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"mensaje\": {\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"codigo\": {\r",
+									"            \"type\": \"integer\"\r",
+									"        }\r",
+									"    },\r",
+									"    \"required\": [\"mensaje\", \"codigo\"],\r",
+									"    \"additionalProperties\": false\r",
+									"};\r",
+									"\r",
+									"\r",
+									"pm.test(\"auth/login - Usuario incorrecto - Valid schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"auth/login - Usuario incorrecta - Error message\", () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.mensaje).to.eql(\"Compruebe el usuario y/o la contraseña\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"test1\",\r\n    \"password\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{duxUrl}}/auth/login",
+							"host": [
+								"{{duxUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth/login - Contraseña incorrecto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"auth/login - Contraseña incorrecta - Status code\", () => {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"var schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"mensaje\": {\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"codigo\": {\r",
+									"            \"type\": \"integer\"\r",
+									"        }\r",
+									"    },\r",
+									"    \"required\": [\"mensaje\", \"codigo\"],\r",
+									"    \"additionalProperties\": false\r",
+									"};\r",
+									"\r",
+									"\r",
+									"pm.test(\"auth/login - Contraseña incorrecta - Valid schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"auth/login - Contraseña incorrecta - Error message\", () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.mensaje).to.eql(\"Compruebe el usuario y/o la contraseña\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"test\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{duxUrl}}/auth/login",
+							"host": [
+								"{{duxUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth/login - Solicitud invalida",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"auth/login - Solicitud invalida - Status code\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"mensaje\": {\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"codigo\": {\r",
+									"            \"type\": \"integer\"\r",
+									"        }\r",
+									"    },\r",
+									"    \"required\": [\"mensaje\", \"codigo\"],\r",
+									"    \"additionalProperties\": false\r",
+									"};\r",
+									"\r",
+									"\r",
+									"pm.test(\"auth/login - Solicitud invalida - Valid schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"auth/login - Solicitud invalida - Error message\", () => {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.mensaje).to.eql(\"La solicitud es invalida\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"packages": {},
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{duxUrl}}/auth/login",
+							"host": [
+								"{{duxUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "equipos",
+			"item": [
+				{
+					"name": "Listar equipos",
+					"item": [
+						{
+							"name": "equipos - Happy path",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos - Happy path - Status code\", () => {\r",
+											"    pm.response.to.have.status(200)\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{duxUrl}}/equipos",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "equipos - Token expirado",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos - Token expirado - Status code\", () => {\r",
+											"    pm.response.to.have.status(401)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"mensaje\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"codigo\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"mensaje\", \"codigo\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos - Token expirado - Valid schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"equipos - Token expirado - Error message\", () => {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.mensaje).to.eql(\"Token expirado, inicie sesión nuevamente\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzIzNjAzNzg1LCJleHAiOjE3MjM2MDQ2ODV9.1bjYhgNlGyOfFnFUiEDzYzBMIBQDzG1ka2adAC4SGfM",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{duxUrl}}/equipos",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "equipos - Usuario no logueado",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos - Usuario no logueado - Status code\", () => {\r",
+											"    pm.response.to.have.status(401)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"mensaje\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"codigo\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"mensaje\", \"codigo\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos - Usuario no logueado - Valid schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"equipos - Usuario no logueado - Error message\", () => {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.mensaje).to.eql(\"Usuario no logueado\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{duxUrl}}/equipos",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Buscar por nombre",
+					"item": [
+						{
+							"name": "equipos/buscar - Happy path",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos/buscar - Happy path - Status code\", () => {\r",
+											"    pm.response.to.have.status(200)\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{duxUrl}}/equipos/buscar?nombre=FC",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos",
+										"buscar"
+									],
+									"query": [
+										{
+											"key": "nombre",
+											"value": "FC"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "equipos/buscar  - Token expirado",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos/buscar - Token expirado - Status code\", () => {\r",
+											"    pm.response.to.have.status(401)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"mensaje\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"codigo\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"mensaje\", \"codigo\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos/buscar - Token expirado - Valid schema\", function () {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"equipos/buscar - Token expirado - Error message\", () => {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.mensaje).to.eql(\"Token expirado, inicie sesión nuevamente\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzIzNjAzNzg1LCJleHAiOjE3MjM2MDQ2ODV9.1bjYhgNlGyOfFnFUiEDzYzBMIBQDzG1ka2adAC4SGfM",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{duxUrl}}/equipos/buscar?nombre=FC",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos",
+										"buscar"
+									],
+									"query": [
+										{
+											"key": "nombre",
+											"value": "FC"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "equipos/buscar  - Usuario no logueado",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos/buscar - Usuario no logueado - Status code\", () => {\r",
+											"    pm.response.to.have.status(401)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"mensaje\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"codigo\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"mensaje\", \"codigo\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos/buscar - Usuario no logueado - Valid schema\", function () {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"equipos/buscar - Usuario no logueado - Error message\", () => {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.mensaje).to.eql(\"Usuario no logueado\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{duxUrl}}/equipos/buscar?nombre=FC",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos",
+										"buscar"
+									],
+									"query": [
+										{
+											"key": "nombre",
+											"value": "FC"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Agregar equipo",
+					"item": [
+						{
+							"name": "equipos - Happy path",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos - Happy path - Status code\", () => {\r",
+											"    pm.response.to.have.status(201)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"id\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"nombre\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"liga\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"pais\": {\r",
+											"            \"type\": \"string\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"id\", \"nombre\", \"liga\", \"pais\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos - Happy path - Valid schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"//Setea el id del equipo agregado en el env\r",
+											"pm.environment.set(\"lastTeamId\", pm.response.json().id);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\":\"Tottenham\",\r\n    \"liga\": \"Premier League\",\r\n    \"pais\": \"Reino Unido\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{duxUrl}}/equipos",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "equipos - Solicitud invalida",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos - Solicitud invalida - Status code\", () => {\r",
+											"    pm.response.to.have.status(400)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"mensaje\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"codigo\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"mensaje\", \"codigo\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos - Solicitud invalida - Valid schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"equipos - Solicitud invalida - Error message\", () => {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.mensaje).to.eql(\"La solicitud es invalida\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\":\"Tottenham\",\r\n    \"liga\": \"Premier League\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{duxUrl}}/equipos",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "equipos  - Token expirado",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos - Token expirado - Status code\", () => {\r",
+											"    pm.response.to.have.status(401)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"mensaje\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"codigo\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"mensaje\", \"codigo\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos - Token expirado - Valid schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"equipos - Token expirado - Error message\", () => {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.mensaje).to.eql(\"Token expirado, inicie sesión nuevamente\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzIzNjAzNzg1LCJleHAiOjE3MjM2MDQ2ODV9.1bjYhgNlGyOfFnFUiEDzYzBMIBQDzG1ka2adAC4SGfM",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\":\"Tottenham\",\r\n    \"liga\": \"Premier League\",\r\n    \"pais\": \"Reino Unido\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{duxUrl}}/equipos",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "equipos  - Usuario no logueado",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos - Usuario no logueado - Status code\", () => {\r",
+											"    pm.response.to.have.status(401)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"mensaje\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"codigo\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"mensaje\", \"codigo\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos - Usuario no logueado - Valid schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"equipos - Usuario no logueado - Error message\", () => {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.mensaje).to.eql(\"Usuario no logueado\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\":\"Tottenham\",\r\n    \"liga\": \"Premier League\",\r\n    \"pais\": \"Reino Unido\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{duxUrl}}/equipos",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Editar equipo",
+					"item": [
+						{
+							"name": "equipos/{id} - Happy path",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos/{id} - Happy path - Status code\", () => {\r",
+											"    pm.response.to.have.status(200)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"id\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"nombre\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"liga\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"pais\": {\r",
+											"            \"type\": \"string\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"id\", \"nombre\", \"liga\", \"pais\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Happy path - Valid schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\":\"Tottenham\",\r\n    \"liga\": \"Premier League\",\r\n    \"pais\": \"Inglaterra\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{duxUrl}}/equipos/{{lastTeamId}}",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos",
+										"{{lastTeamId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "equipos/{id} - Token expirado",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos/{id} - Token expirado - Status code\", () => {\r",
+											"    pm.response.to.have.status(401)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"mensaje\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"codigo\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"mensaje\", \"codigo\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Token expirado - Valid schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Token expirado - Error message\", () => {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.mensaje).to.eql(\"Token expirado, inicie sesión nuevamente\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzIzNjAzNzg1LCJleHAiOjE3MjM2MDQ2ODV9.1bjYhgNlGyOfFnFUiEDzYzBMIBQDzG1ka2adAC4SGfM",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\":\"Tottenham\",\r\n    \"liga\": \"Premier League\",\r\n    \"pais\": \"Inglaterra\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{duxUrl}}/equipos/{{lastTeamId}}",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos",
+										"{{lastTeamId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "equipos/{id} - Solicitud invalida",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos/{id} - Solicitud invalida - Status code\", () => {\r",
+											"    pm.response.to.have.status(400)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"mensaje\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"codigo\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"mensaje\", \"codigo\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Solicitud invalida - Valid schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Solicitud invalida - Error message\", () => {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.mensaje).to.eql(\"La solicitud es invalida\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\":\"Tottenham\",\r\n    \"liga\": \"Premier League\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{duxUrl}}/equipos/{{lastTeamId}}",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos",
+										"{{lastTeamId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "equipos/{id} - Equipo no encontrado",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos/{id} - Equipo no encontrado - Status code\", () => {\r",
+											"    pm.response.to.have.status(404)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"mensaje\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"codigo\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"mensaje\", \"codigo\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Equipo no encontrado - Valid schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Equipo no encontrado - Error message\", () => {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.mensaje).to.eql(\"Equipo no encontrado\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\":\"Tottenham\",\r\n    \"liga\": \"Premier League\",\r\n    \"pais\": \"Inglaterra\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{duxUrl}}/equipos/-1",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos",
+										"-1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "equipos/{id} - Usuario no logueado",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos/{id} - Usuario no logueado - Status code\", () => {\r",
+											"    pm.response.to.have.status(401)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"mensaje\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"codigo\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"mensaje\", \"codigo\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Usuario no logueado - Valid schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Usuario no logueado - Error message\", () => {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.mensaje).to.eql(\"Usuario no logueado\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\":\"Tottenham\",\r\n    \"liga\": \"Premier League\",\r\n    \"pais\": \"Inglaterra\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{duxUrl}}/equipos/{{lastTeamId}}",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos",
+										"{{lastTeamId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Equipo por Id",
+					"item": [
+						{
+							"name": "equipos/{id} - Happy path",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos/{id} - Happy path - Status code\", () => {\r",
+											"    pm.response.to.have.status(200)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"id\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"nombre\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"liga\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"pais\": {\r",
+											"            \"type\": \"string\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"id\", \"nombre\", \"liga\", \"pais\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Happy path - Valid schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{duxUrl}}/equipos/{{lastTeamId}}",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos",
+										"{{lastTeamId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "equipos/{id} - Equipo no encontrado",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos/{id} - Equipo no encontrado - Status code\", () => {\r",
+											"    pm.response.to.have.status(404)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"mensaje\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"codigo\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"mensaje\", \"codigo\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Equipo no encontrado - Valid schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Equipo no encontrado - Error message\", () => {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.mensaje).to.eql(\"Equipo no encontrado\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{duxUrl}}/equipos/-1",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos",
+										"-1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "equipos/{id} - Token expirado",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos/{id} - Token expirado - Status code\", () => {\r",
+											"    pm.response.to.have.status(401)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"mensaje\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"codigo\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"mensaje\", \"codigo\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Token expirado - Valid schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Token expirado - Error message\", () => {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.mensaje).to.eql(\"Token expirado, inicie sesión nuevamente\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzIzNjAzNzg1LCJleHAiOjE3MjM2MDQ2ODV9.1bjYhgNlGyOfFnFUiEDzYzBMIBQDzG1ka2adAC4SGfM",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{duxUrl}}/equipos/{{lastTeamId}}",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos",
+										"{{lastTeamId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "equipos/{id}  - Usuario no logueado",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos/{id} - Usuario no logueado - Status code\", () => {\r",
+											"    pm.response.to.have.status(401)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"mensaje\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"codigo\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"mensaje\", \"codigo\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Usuario no logueado - Valid schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Usuario no logueado - Error message\", () => {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.mensaje).to.eql(\"Usuario no logueado\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{duxUrl}}/equipos/{{lastTeamId}}",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos",
+										"{{lastTeamId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Eliminar equipo",
+					"item": [
+						{
+							"name": "equipos/{id} - Happy path",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos - Happy path - Status code\", () => {\r",
+											"    pm.response.to.have.status(204)\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{duxUrl}}/equipos/{{lastTeamId}}",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos",
+										"{{lastTeamId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "equipos/{id} - Equipo no encontrado",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos/{id} - Equipo no encontrado - Status code\", () => {\r",
+											"    pm.response.to.have.status(404)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"mensaje\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"codigo\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"mensaje\", \"codigo\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Equipo no encontrado - Valid schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Equipo no encontrado - Error message\", () => {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.mensaje).to.eql(\"Equipo no encontrado\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{authToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{duxUrl}}/equipos/-1",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos",
+										"-1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "equipos/{id}  - Token expirado",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos/{id} - Token expirado - Status code\", () => {\r",
+											"    pm.response.to.have.status(401)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"mensaje\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"codigo\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"mensaje\", \"codigo\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Token expirado - Valid schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Token expirado - Error message\", () => {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.mensaje).to.eql(\"Token expirado, inicie sesión nuevamente\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzIzNjAzNzg1LCJleHAiOjE3MjM2MDQ2ODV9.1bjYhgNlGyOfFnFUiEDzYzBMIBQDzG1ka2adAC4SGfM",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{duxUrl}}/equipos/{{lastTeamId}}",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos",
+										"{{lastTeamId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "equipos/{id}  - Usuario no logueado",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"equipos/{id} - Usuario no logueado - Status code\", () => {\r",
+											"    pm.response.to.have.status(401)\r",
+											"})\r",
+											"\r",
+											"var schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"        \"mensaje\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"codigo\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"required\": [\"mensaje\", \"codigo\"],\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Usuario no logueado - Valid schema\", () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"equipos/{id} - Usuario no logueado - Error message\", () => {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.mensaje).to.eql(\"Usuario no logueado\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{duxUrl}}/equipos/{{lastTeamId}}",
+									"host": [
+										"{{duxUrl}}"
+									],
+									"path": [
+										"equipos",
+										"{{lastTeamId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
